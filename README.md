@@ -9,5 +9,5 @@ If you are real clever, you can build this project and program a hotkey on your 
 That way you can just press your function key and press the key you programed; 
 Then the log file will be created automatically.
 I know Rockstar released a feature for telling you the time remaining in the casion;
-However, I personal like to know when I last spun the wheel without kauching GTA5.
+However, I personal like to know when I last spun the wheel without lauching GTA5.
 Good luck on your Lucky Wheel Spins! Enjoy!
