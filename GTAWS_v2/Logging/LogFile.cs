@@ -14,15 +14,15 @@ namespace GTAWS_v2.Logging
         public string FileExt { get; set; }
         public string FolderPath { get; set; }
 
-        //public string FullFileLogPath => LogFileInfo.IsLauncherRunning() ? Path.Combine(FilePath, FileName) : Path.Combine(FilePath, FileName + FileExt);
-
         /// <summary>
-        /// Creates a new instance of a LogFile
+        /// Creates a new instance of a LogFile <br />
+        /// File params can be specified but are optional <br />
+        /// App EXE name is assumed when not provided
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="filePath"></param>
-        /// <param name="fileExt"></param>
-        public LogFile(string fileName = "", string fileExt = "", string filePath = "") // file params can be specified but are optional - App EXE name is assumed when not provided
+        /// <param name="fileExt"></param>                                             
+        public LogFile(string fileName = "", string fileExt = "", string filePath = "")
         {
             if (!string.IsNullOrEmpty(fileName) && !string.IsNullOrEmpty(fileExt) && !string.IsNullOrEmpty(filePath)) // check to see if a file params were specified 
             {

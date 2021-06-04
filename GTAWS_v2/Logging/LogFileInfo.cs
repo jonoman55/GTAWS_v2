@@ -18,12 +18,12 @@ namespace GTAWS_v2.Logging
         // Launchers
         public static List<Launcher> GameLaunchers => new()
         {
-            new Launcher() { Name = "SteamService", Ext = "exe", Type = LauncherType.Steam, IsRunning = false },
-            new Launcher() { Name = "EpicGamesLauncher", Ext = "exe", Type = LauncherType.Epic, IsRunning = false }
+            new Launcher() { Name = "SteamService", FileExt = "exe", Type = LauncherType.Steam, IsRunning = false },
+            new Launcher() { Name = "EpicGamesLauncher", FileExt = "exe", Type = LauncherType.Epic, IsRunning = false }
         };
 
         // Default Launcher Object
-        public static Launcher LauncherNotFound => new() { Name = "Not Found", Ext = "Not Found", Type = LauncherType.NotFound, IsRunning = false };
+        public static Launcher LauncherNotFound => new() { Name = "Not Found", FileExt = "Not Found", Type = LauncherType.NotFound, IsRunning = false };
 
         // App Log File Data
         public static  string CurrentLogFileName => LogFileName;
