@@ -1,4 +1,4 @@
-# GTAWS_v2
+# GTAWS_v2 - GTA5 Wheel Spin Logger (version 2)
 This is a cool little console app written in C# for GTA5 Online. 
 It creates a text file on your Desktop containing your Lucky Wheel Spin timestamp.
 It detects your game launcher and creates a log file specifed to that launcher type. 
