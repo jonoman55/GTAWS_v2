@@ -25,19 +25,6 @@ namespace GTAWS_v2
                     GTATools.StartLogging();
                     return;
                 }
-
-                #region Code used for debugging
-                //LogFileHelper.AddInfoEntry("GTA5WS_v2 Logging Test...");
-                //C:\Users\jonom\Desktop\GTA.lnk
-                //LogFileTools.PrintFilesAndFolders(OSTools.DesktopPath);
-
-                //LogFile logger = new("GTA5WS", ".log", @"C:\Users\jonom\Desktop\GTA");
-                //logger.CreateLogFileDir();
-                //logger.AddEntry(new LogEntry() { Data = "Testing...", Level = Enums.LogLevel.Info });
-
-                //LogFileHelper.AddInfoEntry("Testing Helper Methods..."); 
-                #endregion
-
             }
             catch (Exception ex)
             {

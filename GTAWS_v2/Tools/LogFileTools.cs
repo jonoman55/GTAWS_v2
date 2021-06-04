@@ -25,20 +25,5 @@ namespace GTAWS_v2.Tools
             sw.WriteLine(data);
             sw.WriteLine();
         }
-
-        #region PrintFilesAndFolders - Used For Debugging
-        public static void PrintFilesAndFolders(string path)
-        {
-            string rootdir = @path;
-
-            // get the list of files in the root directory and all its subdirectories
-            string[] files = Directory.GetFiles(rootdir, "*", SearchOption.AllDirectories);
-            Console.WriteLine(string.Join(Environment.NewLine, files));
-
-            // get the list of directories and subdirectories
-            string[] dirs = Directory.GetDirectories(rootdir, "*", SearchOption.AllDirectories);
-            Console.WriteLine(string.Join(Environment.NewLine, dirs));
-        } 
-        #endregion
     }
 }

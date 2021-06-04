@@ -81,10 +81,7 @@ namespace GTAWS_v2.Logging
             }
             else
             {
-                CreateLogFileDir(); // Create the log file and folder if it doesn't exist
-                #region Old Exception Code
-                //throw new DirectoryNotFoundException($"{FolderPath} does not exist or cannot be found."); // Throwing a directory not found exception here. 
-                #endregion            
+                CreateLogFileDir(); // Create the log file and folder if it doesn't exist        
             }
         }
 
