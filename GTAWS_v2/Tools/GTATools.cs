@@ -1,6 +1,7 @@
 ﻿using GTAWS_v2.Enums;
 using GTAWS_v2.Logging;
 using System;
+using System.Collections.Generic;
 
 namespace GTAWS_v2.Tools
 {
@@ -22,6 +23,39 @@ namespace GTAWS_v2.Tools
         {
             LogFileHelper.AddInfoEntry("Starting the Lucky Wheel Spin Logging...");
             RunLuckyWheelSpin();
+        }
+
+        public static bool IsMultipleLaunchersRunning => LogFileInfo.GameLauncherNames.Count == 2;
+
+        public static List<string> GameLauncherNames => LogFileInfo.GameLauncherNames;
+
+        public static bool MultipleGameLaunchersDetected()
+        {
+            if (IsMultipleLaunchersRunning)
+            {
+                Console.WriteLine("Multiple Game Launchers Detected...");
+                GameLauncherNames.ForEach(n => Console.WriteLine($"{n}.exe is running..."));
+                MulLogging();
+                GameLauncherNames.ForEach(n => PrintLaunchers(n));
+                Console.WriteLine("Please close one of the launchers and relaunch GTA5WS.exe...");
+                Console.WriteLine("Press Enter to exit...");
+                Console.ReadKey();
+                LogFileHelper.AddInfoEntry("Exiting GTA5WS_v2.EXE...");
+                return true;
+            }
+            return false;
+        }
+
+        public static void MulLogging() 
+        {
+            LogFileHelper.AddErrorEntry("Lucky Wheel Spin Logger Failure...");
+            LogFileHelper.AddWarningEntry($"Multiple Game Launchers are running...");
+        }
+
+        public static void PrintLaunchers(string name)
+        {
+            LogFileHelper.AddWarningEntry($"Logger Failure Reason: {name}.exe is running...");
+            LogFileHelper.AddInfoEntry($"{name} is currently running...");
         }
 
         public static void NothingDetected() 
@@ -54,17 +88,9 @@ namespace GTAWS_v2.Tools
         public static void LoggerOptions()
         {
             Console.WriteLine("Would you like to log the wheel spin anyway? Type y or n and press Enter");
-            Console.Write("User Input (y/n): ");
-            string userInput = ReadUserInput();
-            if (!CorrectInput(userInput))
-            {
-                LogFileHelper.AddErrorEntry("Incorrect user input.");
-                Console.WriteLine("Input incorrect user input. Please restart GTA5WS.EXE...");
-                Console.WriteLine("Press Enter to exit...");
-                Console.ReadKey();
-                return;
-            }
-            else
+            Console.Write("User Input (Y/N): ");
+            string userInput = ReadUserInput().ToLower();
+            if (CorrectInput(userInput))
             {
                 if (userInput == "y")
                 {
@@ -81,10 +107,18 @@ namespace GTAWS_v2.Tools
                     return;
                 }
             }
+            else
+            {
+                LogFileHelper.AddErrorEntry("Incorrect user input.");
+                Console.WriteLine("Input incorrect user input. Please restart GTA5WS.EXE...");
+                Console.WriteLine("Press Enter to exit...");
+                Console.ReadKey();
+                return;
+            }
         }
 
         private static string ReadUserInput() => Console.ReadLine();
 
-        private static bool CorrectInput(string input) => input == "y" || input == "n";
+        private static bool CorrectInput(string input) => input is "y" or "n";
     }
 }

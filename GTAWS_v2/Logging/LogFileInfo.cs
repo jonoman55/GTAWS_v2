@@ -55,34 +55,76 @@ namespace GTAWS_v2.Logging
         }
 
         /// <summary>
-        /// Get the current launcher running GTA5.exe. Returns null if no launchers are detected.
+        /// Gets the current Game Launcher running GTA5.exe. <br />
+        /// Returns Game Launcher Not Found if multiple launchers or no launchers are detected. <br />
+        /// This will also return the log file name as the default -- GTA5WS.log
         /// </summary>
         public static Launcher GameLauncher
         {
             get
             {
-                foreach ((Launcher launcher, string process) in from Launcher launcher in GameLaunchers
-                                                                let processName = launcher.Name // Needed for CheckForProcessByName(process)
-                                                                select (launcher, processName)) // Extract each Game Launcher to check if it is running.
+                if (!IsMultipleLaunchersRunning && GameLauncherCount != 0) // Multiple Game Launcher Check
                 {
-                    if (!ProcessTools.CheckForProcessByName(process))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        launcher.IsRunning = true;
-                        return launcher;
-                    }
+                    return GameLaunchersRunning.First(); // Return first Game Launcher in the List
                 }
-                return LauncherNotFound;
+                return LauncherNotFound; // Return Game Launcher Not Found
             }
         }
 
         /// <summary>
+        /// Get all running Game Launchers
+        /// </summary>
+        public static List<Launcher> GameLaunchersRunning
+        {
+            get
+            {
+                List<Launcher> launchers = new();
+                foreach (Launcher launcher in GameLaunchers)
+                {
+                    if (ProcessTools.CheckForProcessByName(launcher.Name))
+                    {
+                        launcher.IsRunning = true;
+                        launchers.Add(launcher);
+                    }
+                    else
+                    {
+                        launchers.Remove(launcher);
+                    }
+                }
+                return launchers;
+            }
+        }
+
+        /// <summary>
+        /// Returns a List or running Game Launcher Names
+        /// </summary>
+        public static List<string> GameLauncherNames
+        {
+            get
+            {
+                List<string> names = new();
+                foreach (var l in GameLaunchersRunning)
+                {
+                    names.Add(l.Name != "Not Found" ? l.Name : "Not Found");
+                }
+                return names.Distinct().ToList();
+            }
+        }
+
+        /// <summary>
+        /// Returns the number of Game Launchers currently running
+        /// </summary>
+        public static bool IsMultipleLaunchersRunning => GameLauncherCount > 1;
+
+        /// <summary>
+        /// Returns the number of Game Launchers running
+        /// </summary>
+        public static int GameLauncherCount => GameLaunchersRunning.Count;
+
+        /// <summary>
         /// Checks if a Launcher is running.
         /// </summary>
-        public static bool IsLauncherRunning => GameLauncher.IsRunning;
+        public static bool IsLauncherRunning => GameLauncherCount > 0 && GameLauncherName != "Not Found" ? GameLaunchersRunning.First().IsRunning : false;
 
         /// <summary>
         /// Gets the Current Game Launcher name.
