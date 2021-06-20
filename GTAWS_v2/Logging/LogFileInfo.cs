@@ -26,7 +26,7 @@ namespace GTAWS_v2.Logging
         public static Launcher LauncherNotFound => new() { Name = "Not Found", FileExt = "Not Found", Type = LauncherType.NotFound, IsRunning = false };
 
         // App Log File Data
-        public static  string CurrentLogFileName => LogFileName;
+        public static  string CurrentLogFileName => IsMultipleLaunchersRunning ? DefaultLogFile : LogFileName;
         public static string DefaultAppLogFilePath => Path.Combine(OSTools.DesktopPath, "GTA");
         public static string DefaultAppLogFileFullPath => Path.Combine(DefaultAppLogFilePath, DefaultLogFile);
         public static string CurrentLogFileFileFullPath => Path.Combine(DefaultAppLogFilePath, CurrentLogFileName);
@@ -59,57 +59,19 @@ namespace GTAWS_v2.Logging
         /// Returns Game Launcher Not Found if multiple launchers or no launchers are detected. <br />
         /// This will also return the log file name as the default -- GTA5WS.log
         /// </summary>
-        public static Launcher GameLauncher
-        {
-            get
-            {
-                if (!IsMultipleLaunchersRunning && GameLauncherCount != 0) // Multiple Game Launcher Check
-                {
-                    return GameLaunchersRunning.First(); // Return first Game Launcher in the List
-                }
-                return LauncherNotFound; // Return Game Launcher Not Found
-            }
-        }
+        public static Launcher GameLauncher => !IsMultipleLaunchersRunning && GameLauncherCount != 0 ? GameLaunchersRunning.First() : LauncherNotFound;
 
         /// <summary>
         /// Get all running Game Launchers
         /// </summary>
-        public static List<Launcher> GameLaunchersRunning
-        {
-            get
-            {
-                List<Launcher> launchers = new();
-                foreach (Launcher launcher in GameLaunchers)
-                {
-                    if (ProcessTools.CheckForProcessByName(launcher.Name))
-                    {
-                        launcher.IsRunning = true;
-                        launchers.Add(launcher);
-                    }
-                    else
-                    {
-                        launchers.Remove(launcher);
-                    }
-                }
-                return launchers;
-            }
-        }
+        public static List<Launcher> GameLaunchersRunning => GameLaunchers.Where(l => ProcessTools.CheckForProcessByName(l.Name) ? l.IsRunning = true : l.IsRunning = false)
+                                                                          .Where(l => l.IsRunning).Select(l => l).ToList();
+
 
         /// <summary>
         /// Returns a List or running Game Launcher Names
         /// </summary>
-        public static List<string> GameLauncherNames
-        {
-            get
-            {
-                List<string> names = new();
-                foreach (var l in GameLaunchersRunning)
-                {
-                    names.Add(l.Name != "Not Found" ? l.Name : "Not Found");
-                }
-                return names.Distinct().ToList();
-            }
-        }
+        public static List<string> GameLauncherNames => GameLaunchersRunning.Where(l => l.Name != "Not Found").Select(l => l.Name).ToList();
 
         /// <summary>
         /// Returns the number of Game Launchers currently running
@@ -117,14 +79,14 @@ namespace GTAWS_v2.Logging
         public static bool IsMultipleLaunchersRunning => GameLauncherCount > 1;
 
         /// <summary>
+        /// Checks if a Launcher is running.
+        /// </summary>
+        public static bool IsLauncherRunning => GameLauncherCount > 0 && GameLauncherName != "Not Found" && GameLaunchersRunning.First().IsRunning;
+
+        /// <summary>
         /// Returns the number of Game Launchers running
         /// </summary>
         public static int GameLauncherCount => GameLaunchersRunning.Count;
-
-        /// <summary>
-        /// Checks if a Launcher is running.
-        /// </summary>
-        public static bool IsLauncherRunning => GameLauncherCount > 0 && GameLauncherName != "Not Found" ? GameLaunchersRunning.First().IsRunning : false;
 
         /// <summary>
         /// Gets the Current Game Launcher name.
