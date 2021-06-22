@@ -20,13 +20,12 @@ namespace GTAWS_v2
                 else if (!GTATools.IsGTA5Running() && GTATools.IsGameLauncherRunning())
                 {
                     GTATools.GTA5NotDetected();
-                    GTATools.LoggerOptions();
                 } 
                 // If GTA5.exe is not running and if no Game Launchers are running.
                 else if (!GTATools.IsGTA5Running() && !GTATools.IsGameLauncherRunning())
                 {
+                    
                     GTATools.NothingDetected();
-                    GTATools.LoggerOptions();
                 } 
                 // If GTA5.exe is running and a single Game Launcher is running.
                 else

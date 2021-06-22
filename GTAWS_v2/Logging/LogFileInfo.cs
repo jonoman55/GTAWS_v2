@@ -18,12 +18,20 @@ namespace GTAWS_v2.Logging
         // Launchers
         public static List<Launcher> GameLaunchers => new()
         {
-            new Launcher() { Name = "SteamService", FileExt = "exe", Type = LauncherType.Steam, IsRunning = false },
-            new Launcher() { Name = "EpicGamesLauncher", FileExt = "exe", Type = LauncherType.Epic, IsRunning = false }
+            new Launcher() { Name = "SteamService", FileExt = ".exe", Type = LauncherType.Steam, IsRunning = false, LogFileName = "GTA5WSS.log" },
+            new Launcher() { Name = "EpicGamesLauncher", FileExt = ".exe", Type = LauncherType.Epic, IsRunning = false, LogFileName = "GTA5WSE.log" }
         };
 
         // Default Launcher Object
-        public static Launcher LauncherNotFound => new() { Name = "Not Found", FileExt = "Not Found", Type = LauncherType.NotFound, IsRunning = false };
+        public static Launcher LauncherNotFound => new() { Name = "Not Found", FileExt = "Not Found", Type = LauncherType.NotFound, IsRunning = false, LogFileName = "GTA5WS.log" };
+
+        // All Game Launchers including LauncherNotFound
+        public static List<Launcher> AllLaunchers => new() 
+        {
+            GameLaunchers[0],
+            GameLaunchers[1],
+            LauncherNotFound
+        };
 
         // App Log File Data
         public static  string CurrentLogFileName => IsMultipleLaunchersRunning ? DefaultLogFile : LogFileName;
@@ -43,14 +51,12 @@ namespace GTAWS_v2.Logging
         {
             get
             {
-                Launcher launcher = GameLauncher;
-                string exeName = launcher.Type switch
+                return GameLauncher.Type switch
                 {
-                    LauncherType.Steam => "GTA5WSS.log",
-                    LauncherType.Epic => "GTA5WSE.log",
+                    LauncherType.Steam => $"{AppName}S{LogExt}",
+                    LauncherType.Epic => $"{AppName}E{LogExt}",
                     _ => DefaultLogFile,
                 };
-                return exeName;
             }
         }
 

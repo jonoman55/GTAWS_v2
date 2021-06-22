@@ -8,6 +8,7 @@ namespace GTAWS_v2.Models
         public string Name { get; set; }
         public string FileExt { get; set; }
         public bool IsRunning { get; set; }
+        public string LogFileName { get; set; }
 
         /// <summary>
         /// Appends .exe to the Launchers name <br />
