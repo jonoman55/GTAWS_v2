@@ -28,9 +28,9 @@ namespace GTAWS_v2.Logging
         // All Game Launchers including LauncherNotFound
         public static List<Launcher> AllLaunchers => new() 
         {
-            GameLaunchers[0],
-            GameLaunchers[1],
-            LauncherNotFound
+            GameLaunchers[0], //SteamService
+            GameLaunchers[1], //EpicGamesLauncher
+            LauncherNotFound, //LauncherNotFound
         };
 
         // App Log File Data
