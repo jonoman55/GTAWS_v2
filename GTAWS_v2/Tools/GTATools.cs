@@ -76,11 +76,15 @@ namespace GTAWS_v2.Tools
         }
         #endregion
 
-        #region PrintFailureMessages
+        #region PrintFailureMessage
         private static void LoggerFailureMessage() => LogFileHelper.AddErrorEntry("Lucky Wheel Spin Logger Failure...", true);
-        private static void LoggerOptionsMessage() => LogFileHelper.AddInfoEntry("Starting Logger Options...", true);
         #endregion
-        
+
+        #region LoggerOptionsMessage
+        private static void LoggerOptionsMessage() => LogFileHelper.AddInfoEntry("Starting Logger Options...", true);
+
+        #endregion
+
         #region StartLogging
         public static void StartLogging(bool nothingDetected = false)
         {
